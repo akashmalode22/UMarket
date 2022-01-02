@@ -7,7 +7,7 @@ import colors from "../../../utils/colors";
 
 import { ItemsInfoCard } from "../components/item-info-card.components";
 
-const SafeAreaViewStyle = styled(SafeAreaView)`
+const SafeArea = styled(SafeAreaView)`
   flex: 1;
   background-color: #ceb888;
 `;
@@ -25,14 +25,14 @@ const ItemListView = styled.View`
 export const ItemsScreen = () => {
   return (
     <>
-      <SafeAreaViewStyle>
+      <SafeArea>
         <SearchView>
           <Searchbar placeholder="Search Item" />
         </SearchView>
         <ItemListView>
           <ItemsInfoCard />
         </ItemListView>
-      </SafeAreaViewStyle>
+      </SafeArea>
     </>
   );
 };
