@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, FlatList } from "react-native";
 import { Searchbar } from "react-native-paper";
 import styled from "styled-components/native";
 
@@ -30,7 +30,12 @@ export const ItemsScreen = () => {
           <Searchbar placeholder="Search Item" />
         </SearchView>
         <ItemListView>
-          <ItemsInfoCard />
+          <FlatList
+            data={[{ name: 1 }, { name: 2 }, { name: 3 }, { name: 4 }]}
+            renderItem={() => <ItemsInfoCard />}
+            keyExtractor={(item) => item.name}
+            contentContainerStyle={{ padding: 16 }}
+          />
         </ItemListView>
       </SafeArea>
     </>

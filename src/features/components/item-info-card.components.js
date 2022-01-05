@@ -25,6 +25,7 @@ const Info = styled.View`
 
 const ItemInfoCard = styled(Card)`
   background-color: #373a36;
+  margin-bottom: ${(props) => props.theme.space[3]};
 `;
 
 const SectionEnd = styled.View`
@@ -58,11 +59,10 @@ export const ItemsInfoCard = ({ item = {} }) => {
             <Title>{name}</Title>
             <SectionEnd>
               <Tags>
-                <DeliveryImage />
-                <NegotiableImage />
+                {isDelivery && <DeliveryImage />}
+                {isNegotiable && <NegotiableImage />}
               </Tags>
             </SectionEnd>
-
             <Price>{price}</Price>
           </Info>
         </Card.Content>
