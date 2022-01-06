@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet, Text, View, SafeAreaView, FlatList } from "react-native";
 import { Searchbar } from "react-native-paper";
 import styled from "styled-components/native";
+import { ItemsContext } from "../../services/items/items.context";
+import { ActivityIndicator, Colors } from "react-native-paper";
 
 import colors from "../../../utils/colors";
 
@@ -23,18 +25,27 @@ const ItemListView = styled.View`
 `;
 
 export const ItemsScreen = () => {
+  const { items, isLoading, error } = useContext(ItemsContext);
+
   return (
     <>
       <SafeArea>
+        {isLoading && (
+          <ActivityIndicator animating={true} color={Colors.red800} />
+        )}
         <SearchView>
           <Searchbar placeholder="Search Item" />
         </SearchView>
         <ItemListView>
           <FlatList
-            data={[{ name: 1 }, { name: 2 }, { name: 3 }, { name: 4 }]}
-            renderItem={() => <ItemsInfoCard />}
+            data={items}
+            renderItem={({ item }) => {
+              return <ItemsInfoCard item={item} />;
+            }}
             keyExtractor={(item) => item.name}
             contentContainerStyle={{ padding: 16 }}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
           />
         </ItemListView>
       </SafeArea>
