@@ -6,6 +6,9 @@ export const items = [
     isNegotiable: true,
     isDelivery: true,
     isCashOnly: false,
+    description: "Brand new hair dryer, never used before.",
+    brand: "ConAir",
+    condition: "like new",
   },
   {
     name: "MacBook Pro",
@@ -14,6 +17,10 @@ export const items = [
     isNegotiable: false,
     isDelivery: true,
     isCashOnly: false,
+    description: "Used for 2 years. 2017 model.",
+    brand: "Apple",
+    condition: "used",
+    defects: null,
   },
   {
     name: "iPad Air",
@@ -22,6 +29,10 @@ export const items = [
     isNegotiable: false,
     isDelivery: true,
     isCashOnly: false,
+    description: "Used for 1 year.",
+    brand: "Apple",
+    condition: "like new",
+    defects: "small scratch on top-left corner.",
   },
   {
     name: "Samsung 55 TV",
@@ -30,5 +41,9 @@ export const items = [
     isNegotiable: true,
     isDelivery: false,
     isCashOnly: false,
+    description: "Never used.",
+    brand: "Samsung",
+    condition: "In box. Never opened.",
+    defects: null,
   },
 ];

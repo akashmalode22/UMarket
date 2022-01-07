@@ -7,6 +7,7 @@ import { ItemsContextProvider } from "../../services/items/items.context";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ItemsScreen } from "../../features/screens/items.screen";
+import { ItemsNavigator } from "./items.navigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -49,7 +50,7 @@ export const AppNavigator = () => {
           tabBarInactiveTintColor: "gray",
         })}
       >
-        <Tab.Screen name="Items" component={ItemsScreen} />
+        <Tab.Screen name="Items" component={ItemsNavigator} />
         <Tab.Screen name="Favorites" component={FavoritesScreen} />
         <Tab.Screen name="Settings" component={SettingsScreen} />
       </Tab.Navigator>

@@ -1,5 +1,13 @@
 import React, { useContext } from "react";
-import { StyleSheet, Text, View, SafeAreaView, FlatList } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  FlatList,
+  Pressable,
+  TouchableOpacity,
+} from "react-native";
 import { Searchbar } from "react-native-paper";
 import styled from "styled-components/native";
 import { ItemsContext } from "../../services/items/items.context";
@@ -24,7 +32,7 @@ const ItemListView = styled.View`
   background-color: #9d968d;
 `;
 
-export const ItemsScreen = () => {
+export const ItemsScreen = ({ navigation }) => {
   const { items, isLoading, error } = useContext(ItemsContext);
 
   return (
@@ -40,7 +48,15 @@ export const ItemsScreen = () => {
           <FlatList
             data={items}
             renderItem={({ item }) => {
-              return <ItemsInfoCard item={item} />;
+              return (
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("ItemDetail", { item: item })
+                  }
+                >
+                  <ItemsInfoCard item={item} />
+                </TouchableOpacity>
+              );
             }}
             keyExtractor={(item) => item.name}
             contentContainerStyle={{ padding: 16 }}
