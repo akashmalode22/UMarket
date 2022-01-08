@@ -8,6 +8,9 @@ const FavoritesWrapper = styled.View`
 `;
 
 export const FavoritesBar = ({ favorites, itemDetailView }) => {
+  if (favorites.length === 0) {
+    return null;
+  }
   return (
     <FavoritesWrapper>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
