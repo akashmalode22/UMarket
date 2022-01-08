@@ -5,10 +5,10 @@ import { List } from "react-native-paper";
 import { ItemsInfoCard } from "../components/item-info-card.components";
 
 export const ItemDetailScreen = ({ route }) => {
-  const [descriptionExpanded, setDescriptionExpanded] = useState(true);
-  const [brandExpanded, setBrandExpanded] = useState(true);
-  const [conditionExpanded, setConditionExpanded] = useState(true);
-  const [defectsExpanded, setDefectsExpanded] = useState(true);
+  const [descriptionExpanded, setDescriptionExpanded] = useState(false);
+  const [brandExpanded, setBrandExpanded] = useState(false);
+  const [conditionExpanded, setConditionExpanded] = useState(false);
+  const [defectsExpanded, setDefectsExpanded] = useState(false);
 
   const { item } = route.params;
   return (

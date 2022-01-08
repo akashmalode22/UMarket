@@ -1,5 +1,6 @@
 export const items = [
   {
+    placeId: 1,
     name: "Hair Dryer",
     photos: ["https://picsum.photos/700"],
     price: "$15",
@@ -11,6 +12,7 @@ export const items = [
     condition: "like new",
   },
   {
+    placeId: 2,
     name: "MacBook Pro",
     photos: ["https://picsum.photos/700"],
     price: "$1999",
@@ -23,6 +25,7 @@ export const items = [
     defects: null,
   },
   {
+    placeId: 3,
     name: "iPad Air",
     photos: ["https://picsum.photos/700"],
     price: "$699",
@@ -35,6 +38,7 @@ export const items = [
     defects: "small scratch on top-left corner.",
   },
   {
+    placeId: 4,
     name: "Samsung 55 TV",
     photos: ["https://picsum.photos/700"],
     price: "$199",

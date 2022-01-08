@@ -5,7 +5,7 @@ import { theme } from "./src/infrastructure/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { ItemsContextProvider } from "./src/services/items/items.context";
 import { Navigation } from "./src/infrastructure/navigation/index";
-
+import { FavoritesContextProvider } from "./src/services/favorites/favorites.context";
 import {
   useFonts as useOswald,
   Oswald_400Regular,
@@ -24,9 +24,11 @@ export default function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <ItemsContextProvider>
-          <Navigation />
-        </ItemsContextProvider>
+        <FavoritesContextProvider>
+          <ItemsContextProvider>
+            <Navigation />
+          </ItemsContextProvider>
+        </FavoritesContextProvider>
       </ThemeProvider>
     </>
   );

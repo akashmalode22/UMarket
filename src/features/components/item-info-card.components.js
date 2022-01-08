@@ -6,6 +6,7 @@ import { colors } from "../../../utils/colors";
 import { SvgXml } from "react-native-svg";
 import Negotiable from "../../../assets/sort-result.svg";
 import { DeliveryImage, NegotiableImage } from "./tag-images";
+import { Favorite } from "../../components/favorites/favorite.component";
 
 const Title = styled.Text`
   font-weight: bold;
@@ -40,30 +41,21 @@ const Tags = styled.View`
 `;
 
 export const ItemsInfoCard = ({ item = {} }) => {
-  const {
-    name = "Hair Dryer",
-    photos = ["https://picsum.photos/700"],
-    price = "$15",
-    isNegotiable = true,
-    isPickupOnly = false,
-    isDelivery = true,
-    isCashOnly = false,
-  } = item;
-
   return (
     <>
       <ItemInfoCard elevation={5}>
-        <Card.Cover source={{ uri: photos[0] }} />
+        <Favorite item={item} />
+        <Card.Cover source={{ uri: item.photos[0] }} />
         <Card.Content>
           <Info>
-            <Title>{name}</Title>
+            <Title>{item.name}</Title>
             <SectionEnd>
               <Tags>
-                {isDelivery && <DeliveryImage />}
-                {isNegotiable && <NegotiableImage />}
+                {item.isDelivery && <DeliveryImage />}
+                {item.isNegotiable && <NegotiableImage />}
               </Tags>
             </SectionEnd>
-            <Price>{price}</Price>
+            <Price>{item.price}</Price>
           </Info>
         </Card.Content>
       </ItemInfoCard>
