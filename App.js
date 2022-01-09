@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, Pressable } from "react-native";
 import { ThemeProvider } from "styled-components/native";
 import { theme } from "./src/infrastructure/theme";
 import { Ionicons } from "@expo/vector-icons";
@@ -11,6 +11,14 @@ import {
   Oswald_400Regular,
 } from "@expo-google-fonts/oswald";
 import { useFonts as useLato, Lato_400Regular } from "@expo-google-fonts/lato";
+
+import { initializeApp } from "firebase/app";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { AuthenticationContextProvider } from "./src/services/authentication/authentication.context";
 
 export default function App() {
   const [oswaldLoaded] = useOswald({
@@ -24,11 +32,13 @@ export default function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <FavoritesContextProvider>
-          <ItemsContextProvider>
-            <Navigation />
-          </ItemsContextProvider>
-        </FavoritesContextProvider>
+        <AuthenticationContextProvider>
+          <FavoritesContextProvider>
+            <ItemsContextProvider>
+              <Navigation />
+            </ItemsContextProvider>
+          </FavoritesContextProvider>
+        </AuthenticationContextProvider>
       </ThemeProvider>
     </>
   );
