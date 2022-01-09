@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, SafeAreaView, Pressable } from "react-native";
 import { ThemeProvider } from "styled-components/native";
 import { theme } from "./src/infrastructure/theme";
 import { Ionicons } from "@expo/vector-icons";
+import FlashMessage from "react-native-flash-message";
+
 import { ItemsContextProvider } from "./src/services/items/items.context";
 import { Navigation } from "./src/infrastructure/navigation/index";
 import { FavoritesContextProvider } from "./src/services/favorites/favorites.context";
@@ -39,6 +41,7 @@ export default function App() {
             </ItemsContextProvider>
           </FavoritesContextProvider>
         </AuthenticationContextProvider>
+        <FlashMessage position="top" />
       </ThemeProvider>
     </>
   );

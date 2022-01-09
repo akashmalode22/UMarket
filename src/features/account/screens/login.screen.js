@@ -1,1 +1,49 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import { ImageBackground, StyleSheet, Text, View } from "react-native";
+import { TextInput, Button } from "react-native-paper";
+
+import { AccountBackground } from "../components/account.styles";
+import { AuthenticationContext } from "../../../services/authentication/authentication.context";
+import { AuthInput } from "../components/account.styles";
+import { showMessage, hideMessage } from "react-native-flash-message";
+
+export const LoginScreen = () => {
+  const { onLogin, error, setError } = useContext(AuthenticationContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  return (
+    <AccountBackground>
+      <AuthInput
+        label="E-mail"
+        value={email}
+        textContentType="emailAddress"
+        keyboardType="email-address"
+        autoCapitalize="none"
+        onChangeText={(u) => setEmail(u)}
+      />
+      <View style={{ paddingBottom: 10 }} />
+      <AuthInput
+        label="Password"
+        value={password}
+        textContentType="password"
+        secureTextEntry
+        autoCapitalize="none"
+        secure
+        onChangeText={(p) => setPassword(p)}
+      />
+      {error ? showMessage({ message: "Invalid Login Credentials" }) : null}
+      {setError(null)}
+      <View style={{ paddingBottom: 30 }} />
+      <Button
+        icon="lock-open"
+        mode="contained"
+        color="#CEB888"
+        width={300}
+        onPress={() => onLogin(email, password)}
+      >
+        Login
+      </Button>
+    </AccountBackground>
+  );
+};
