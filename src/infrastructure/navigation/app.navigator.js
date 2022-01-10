@@ -1,5 +1,6 @@
+import React, { useContext } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, Button } from "react-native";
 import { ThemeProvider } from "styled-components/native";
 import { theme } from "../theme";
 import { Ionicons } from "@expo/vector-icons";
@@ -7,6 +8,7 @@ import { ItemsContextProvider } from "../../services/items/items.context";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ItemsScreen } from "../../features/screens/items.screen";
 import { ItemsNavigator } from "./items.navigator";
+import { AuthenticationContext } from "../../services/authentication/authentication.context";
 
 const Tab = createBottomTabNavigator();
 
@@ -19,9 +21,11 @@ function FavoritesScreen() {
 }
 
 function SettingsScreen() {
+  const { onLogout } = useContext(AuthenticationContext);
   return (
     <View style={{ justifyContent: "center", alignItems: "center", flex: 1 }}>
       <Text>Settings Screen</Text>
+      <Button title="logout" onPress={() => onLogout()} />
     </View>
   );
 }

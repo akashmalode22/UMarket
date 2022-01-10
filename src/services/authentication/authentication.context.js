@@ -1,12 +1,26 @@
 import React, { useState, createContext } from "react";
-import { loginRequest, registerRequest } from "./authentication.service";
-
+import {
+  loginRequest,
+  registerRequest,
+  userLoggedIn,
+  logout,
+} from "./authentication.service";
+import { onAuthStateChanged } from "firebase/auth";
 export const AuthenticationContext = createContext();
 
 export const AuthenticationContextProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
+
+  userLoggedIn((u) => {
+    if (u) {
+      setUser(u);
+      setIsLoading(false);
+    } else {
+      setIsLoading(true);
+    }
+  });
 
   const onLogin = (email, password) => {
     setIsLoading(true);
@@ -37,6 +51,11 @@ export const AuthenticationContextProvider = ({ children }) => {
       });
   };
 
+  const onLogout = () => {
+    setUser(null);
+    logout();
+  };
+
   return (
     <AuthenticationContext.Provider
       value={{
@@ -47,6 +66,7 @@ export const AuthenticationContextProvider = ({ children }) => {
         setError,
         onLogin,
         onRegister,
+        onLogout,
       }}
     >
       {children}
