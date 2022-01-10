@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { ImageBackground, StyleSheet, Text, View } from "react-native";
+import { ImageBackground, StyleSheet, Text, View, Image } from "react-native";
 import {
   TextInput,
   Button,
@@ -21,6 +21,12 @@ export const LoginScreen = ({ navigation }) => {
 
   return (
     <AccountBackground>
+      <Image
+        source={require("../../../../assets/logo.png")}
+        style={styles.logo}
+      />
+
+      <View style={{ paddingBottom: 20 }} />
       <AuthInput
         label="E-mail"
         value={email}
@@ -41,7 +47,7 @@ export const LoginScreen = ({ navigation }) => {
       {error ? showMessage({ message: "Invalid Login Credentials" }) : null}
       {setError(null)}
       <View style={{ paddingBottom: 30 }} />
-      {isLoading ? (
+      {/* {isLoading ? (
         <ActivityIndicator animating={true} color={"#CEB888"} />
       ) : (
         <Button
@@ -53,7 +59,16 @@ export const LoginScreen = ({ navigation }) => {
         >
           Login
         </Button>
-      )}
+      )} */}
+      <Button
+        icon="lock-open"
+        mode="contained"
+        color="#CEB888"
+        width={300}
+        onPress={() => onLogin(email, password)}
+      >
+        Login
+      </Button>
 
       <View style={{ paddingBottom: 80 }} />
 
@@ -68,3 +83,17 @@ export const LoginScreen = ({ navigation }) => {
     </AccountBackground>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 50,
+  },
+  tinyLogo: {
+    width: 50,
+    height: 50,
+  },
+  logo: {
+    width: 400,
+    height: 100,
+  },
+});

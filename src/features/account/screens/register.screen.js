@@ -50,7 +50,7 @@ export const RegisterScreen = ({ navigation }) => {
       />
 
       <View style={{ paddingBottom: 30 }} />
-      {isLoading ? (
+      {/* {isLoading ? (
         <ActivityIndicator animating={true} color={"#CEB888"} />
       ) : (
         <Button
@@ -62,7 +62,16 @@ export const RegisterScreen = ({ navigation }) => {
         >
           Register
         </Button>
-      )}
+      )} */}
+      <Button
+        icon="account"
+        mode="contained"
+        color="#CEB888"
+        width={300}
+        onPress={() => onRegister(email, password, repeatedPassword)}
+      >
+        Register
+      </Button>
 
       {error == "Passwords do not match"
         ? showMessage({ message: "Passwords do not match" })

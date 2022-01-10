@@ -2,7 +2,12 @@ export const items = [
   {
     placeId: 1,
     name: "Hair Dryer",
-    photos: ["https://picsum.photos/700"],
+    photos: [
+      "https://picsum.photos/700",
+      "https://picsum.photos/700",
+      "https://picsum.photos/700",
+      "https://picsum.photos/700",
+    ],
     price: "$15",
     isNegotiable: true,
     isDelivery: true,

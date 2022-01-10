@@ -13,7 +13,7 @@ export const ItemDetailScreen = ({ route }) => {
   const { item } = route.params;
   return (
     <SafeAreaView style={{ backgroundColor: "#9D968D", flex: 1 }}>
-      <ItemsInfoCard item={item} />
+      <ItemsInfoCard item={item} bigView={true} />
       <ScrollView>
         <List.Accordion
           theme={{ colors: { primary: "#373A36" } }}
