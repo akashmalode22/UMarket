@@ -9,26 +9,10 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ItemsScreen } from "../../features/screens/items.screen";
 import { ItemsNavigator } from "./items.navigator";
 import { AuthenticationContext } from "../../services/authentication/authentication.context";
+import { SettingsScreen } from "../../features/settings/screens/settings.screen";
+import { FavoritesScreen } from "../../features/favorites/screens/favorites.screen";
 
 const Tab = createBottomTabNavigator();
-
-function FavoritesScreen() {
-  return (
-    <View style={{ justifyContent: "center", alignItems: "center", flex: 1 }}>
-      <Text>Favorites Screen</Text>
-    </View>
-  );
-}
-
-function SettingsScreen() {
-  const { onLogout } = useContext(AuthenticationContext);
-  return (
-    <View style={{ justifyContent: "center", alignItems: "center", flex: 1 }}>
-      <Text>Settings Screen</Text>
-      <Button title="logout" onPress={() => onLogout()} />
-    </View>
-  );
-}
 
 export const AppNavigator = () => {
   return (
