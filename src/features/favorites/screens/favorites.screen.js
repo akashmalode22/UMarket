@@ -65,9 +65,14 @@ export const FavoritesScreen = ({ navigation }) => {
       </ItemListView>
     </SafeArea>
   ) : (
-    <FavoritesSafeArea>
-      <Text>No favorites yet</Text>
-    </FavoritesSafeArea>
+    <SafeArea>
+      <SearchView>
+        <Searchbar placeholder="Search Favorites" />
+      </SearchView>
+      <ItemListView style={{ alignItems: "center", justifyContent: "center" }}>
+        <Text>No favorites yet</Text>
+      </ItemListView>
+    </SafeArea>
   );
 
   return (

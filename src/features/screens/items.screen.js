@@ -8,17 +8,17 @@ import {
   Pressable,
   TouchableOpacity,
 } from "react-native";
-import { Searchbar } from "react-native-paper";
+import { Searchbar, FAB } from "react-native-paper";
 import styled from "styled-components/native";
+import { useSafeArea } from "react-native-safe-area-context";
+
 import { ItemsContext } from "../../services/items/items.context";
 import { ActivityIndicator, Colors } from "react-native-paper";
 import { FavoritesContext } from "../../services/favorites/favorites.context";
 import { FavoritesBar } from "../../components/favorites/favorites-bar.component";
-
 import colors from "../../../utils/colors";
-
 import { ItemsInfoCard } from "../components/item-info-card.components";
-import { useSafeArea } from "react-native-safe-area-context";
+import { FadeInView } from "../../components/animations/fade.animation";
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
@@ -74,7 +74,9 @@ export const ItemsScreen = ({ navigation }) => {
                     navigation.navigate("ItemDetail", { item: item })
                   }
                 >
-                  <ItemsInfoCard item={item} />
+                  <FadeInView duration={1000}>
+                    <ItemsInfoCard item={item} />
+                  </FadeInView>
                 </TouchableOpacity>
               );
             }}
@@ -84,7 +86,22 @@ export const ItemsScreen = ({ navigation }) => {
             showsHorizontalScrollIndicator={false}
           />
         </ItemListView>
+        <FAB
+          style={styles.fab}
+          medium
+          icon="plus"
+          onPress={() => navigation.navigate("AddItem")}
+        />
       </SafeArea>
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  fab: {
+    position: "absolute",
+    margin: 10,
+    right: 0,
+    bottom: 0,
+  },
+});

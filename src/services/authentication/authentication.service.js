@@ -6,6 +6,13 @@ import {
   createUserWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
+import {
+  doc,
+  setDoc,
+  addDoc,
+  collection,
+  getFirestore,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyARJcWt7DBUYAa4yR5YKT1iQUYltnfMQSc",
@@ -18,6 +25,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore();
 
 export const userLoggedIn = (usr) => onAuthStateChanged(auth, usr);
 
@@ -28,3 +36,11 @@ export const registerRequest = (email, password) =>
   createUserWithEmailAndPassword(auth, email, password);
 
 export const logout = () => signOut(auth);
+
+export const addItemToDatabase = async (itemObj) => {
+  try {
+    await addDoc(collection(db, "items"), itemObj);
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+};
