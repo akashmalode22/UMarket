@@ -90,6 +90,7 @@ export const ItemsScreen = ({ navigation }) => {
           style={styles.fab}
           medium
           icon="plus"
+          color="#CEB888"
           onPress={() => navigation.navigate("AddItem")}
         />
       </SafeArea>
@@ -103,5 +104,7 @@ const styles = StyleSheet.create({
     margin: 10,
     right: 0,
     bottom: 0,
+    backgroundColor: "#373A36",
+    color: "white",
   },
 });

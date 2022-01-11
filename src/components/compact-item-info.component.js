@@ -19,7 +19,7 @@ export const CompactItemInfo = ({ item }) => {
   const Image = CompactImage;
   return (
     <Item>
-      <Image source={{ uri: item.photos[0] }} />
+      {/* <Image source={{ uri: item.photos[0] }} /> */}
       <Text>{item.name}</Text>
     </Item>
   );

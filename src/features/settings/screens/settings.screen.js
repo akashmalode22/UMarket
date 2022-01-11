@@ -1,7 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Text, Button, View, SafeAreaView } from "react-native";
 import { List, Avatar } from "react-native-paper";
 import styled from "styled-components/native";
+import * as ImagePicker from "expo-image-picker";
 
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 
@@ -20,6 +21,22 @@ const UserEmailText = styled.Text`
 
 export const SettingsScreen = ({ nagivation }) => {
   const { onLogout, user } = useContext(AuthenticationContext);
+  const { image, setImage } = useState(null);
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
+
   return (
     <SafeAreaView>
       <AvatarView>
@@ -32,6 +49,14 @@ export const SettingsScreen = ({ nagivation }) => {
           onPress={onLogout}
           left={(props) => <List.Icon {...props} icon="logout" />}
         />
+      </List.Section>
+      <List.Section>
+        <SettingsItem
+          title="Choose image"
+          onPress={pickImage}
+          left={(props) => <List.Icon {...props} icon="logout" />}
+        />
+        {image && console.log(image)}
       </List.Section>
     </SafeAreaView>
   );
