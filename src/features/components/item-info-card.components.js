@@ -66,13 +66,13 @@ export const ItemsInfoCard = ({ item = {}, bigView = false }) => {
     <>
       <ItemInfoCard elevation={5}>
         <Favorite item={item} />
-        <View>
+        {/* <View>
           {bigView ? (
             <SliderBox images={item.photos} />
           ) : (
             <Card.Cover source={{ uri: item.photos[0] }} />
           )}
-        </View>
+        </View> */}
 
         <Card.Content>
           <Info>

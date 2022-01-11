@@ -5,7 +5,10 @@ import TextInput from "react-native-text-input-interactive";
 import styled from "styled-components/native";
 import { AuthInput } from "../account/components/account.styles";
 import InteractiveTextInput from "react-native-text-input-interactive";
-import { addItemToDatabase } from "../../services/authentication/authentication.service";
+import {
+  addItemToDatabase,
+  getItemsFromDatabase,
+} from "../../services/authentication/authentication.service";
 
 const AddItemSafeArea = styled.SafeAreaView`
   background-color: #9d968d;

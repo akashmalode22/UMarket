@@ -1,12 +1,13 @@
 import { items } from "./mock/data";
+import { getItemsFromDatabase } from "../authentication/authentication.service";
 
 export const itemsRequest = () => {
   return new Promise((resolve, reject) => {
-    const mock_items = items;
-    if (!mock_items) {
+    const items = getItemsFromDatabase();
+    if (!items) {
       reject("No items found...");
     }
-    resolve(mock_items);
+    resolve(items);
   });
 };
 
