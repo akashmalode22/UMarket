@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -8,19 +8,30 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   TextInput as TextInp,
+  ImagePickerIOS,
+  TouchableOpacity,
 } from "react-native";
-import { Button, ActivityIndicator, Colors, Switch } from "react-native-paper";
+import {
+  Button,
+  ActivityIndicator,
+  Colors,
+  Switch,
+  Avatar,
+} from "react-native-paper";
 import TextInput from "react-native-text-input-interactive";
 import styled from "styled-components/native";
-import { AuthInput } from "../account/components/account.styles";
 import InteractiveTextInput from "react-native-text-input-interactive";
 import ModalSelector from "react-native-modal-selector";
 import AwesomeButton from "react-native-really-awesome-button";
+import * as ImagePicker from "expo-image-picker";
+
+import { AuthInput } from "../account/components/account.styles";
 
 import {
   addItemToDatabase,
   getItemsFromDatabase,
 } from "../../services/authentication/authentication.service";
+import { AuthenticationContext } from "../../services/authentication/authentication.context";
 
 const ToggleArea = styled.View`
   flex: 1;
@@ -47,19 +58,20 @@ const ButtonSpacer = styled.View`
   justify-content: space-between;
 `;
 
+const PicturesView = styled.View`
+  padding-top: 10px;
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`;
+
+const SinglePhotoView = styled.View`
+  padding: 15px;
+`;
+
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
-
-const obj = {
-  name: "iPhone XX",
-  price: "499",
-  isNegotiable: true,
-  isDelivery: true,
-  description: "iPhone X 64GB Silver",
-  brand: "Apple",
-  condition: "Used",
-  category: "Electronics",
-};
 
 export const AddItemScreen = ({ navigation }) => {
   const [name, setName] = useState("");
@@ -75,6 +87,33 @@ export const AddItemScreen = ({ navigation }) => {
   const onToggleDeliverySwitch = () => setIsDelivery(!isDelivery);
   const onToggleNegotiableSwitch = () => setIsNegotiable(!isNegotiable);
 
+  const { onLogout, user } = useContext(AuthenticationContext);
+
+  const [image1, setImage1] = useState(null);
+  const [image2, setImage2] = useState(null);
+
+  const pickImage1 = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    });
+
+    if (!result.cancelled) {
+      setImage1(result.uri);
+    }
+  };
+
+  const pickImage2 = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    });
+
+    if (!result.cancelled) {
+      setImage2(result.uri);
+    }
+  };
+
   const createObject = () => {
     let item = {
       name: name,
@@ -87,7 +126,7 @@ export const AddItemScreen = ({ navigation }) => {
       isDelivery: isDelivery,
       isNegotiable: isNegotiable,
     };
-    addItemToDatabase(item);
+    addItemToDatabase(item, user);
   };
 
   let index_condition = 0;
@@ -190,6 +229,7 @@ export const AddItemScreen = ({ navigation }) => {
           </Text>
           <ModalSelector
             style={styles.modal}
+            animationType="fade"
             data={condition_data}
             textInputStyle={{ width: windowWidth * 0.7, height: 50 }}
             initValue="Select condition..."
@@ -218,6 +258,7 @@ export const AddItemScreen = ({ navigation }) => {
           <ModalSelector
             style={styles.modal}
             data={category_data}
+            animationType="fade"
             textInputStyle={{ width: windowWidth * 0.7, height: 50 }}
             initValue="Select caterory..."
             onChange={(option) => {
@@ -270,8 +311,45 @@ export const AddItemScreen = ({ navigation }) => {
             />
           </ToggleArea>
           <ButtonSpacer />
+          <ButtonSpacer />
+          <Text
+            style={{
+              color: "#373A36",
+              fontWeight: "bold",
+              fontSize: 20,
+              paddingRight: 10,
+            }}
+          >
+            Add up to 2 pictures
+          </Text>
+          <PicturesView>
+            <SinglePhotoView>
+              <TouchableOpacity onPress={() => pickImage1()}>
+                {!image1 && (
+                  <Avatar.Icon
+                    size={75}
+                    backgroundColor="#373A36"
+                    icon="plus"
+                  />
+                )}
+                {image1 && <Avatar.Image size={100} source={{ uri: image1 }} />}
+              </TouchableOpacity>
+            </SinglePhotoView>
+            <SinglePhotoView>
+              <TouchableOpacity onPress={() => pickImage2()}>
+                {!image2 && (
+                  <Avatar.Icon
+                    size={75}
+                    backgroundColor="#373A36"
+                    icon="plus"
+                  />
+                )}
+                {image2 && <Avatar.Image size={100} source={{ uri: image2 }} />}
+              </TouchableOpacity>
+            </SinglePhotoView>
+          </PicturesView>
+
           <AwesomeButton
-            progress
             onPress={() => {
               createObject();
               navigation.goBack();

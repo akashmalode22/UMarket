@@ -42,10 +42,12 @@ export const registerRequest = (email, password) =>
 
 export const logout = () => signOut(auth);
 
-export const addItemToDatabase = async (itemObj) => {
+export const addItemToDatabase = async (itemObj, user) => {
   try {
     const newItemRef = doc(collection(db, "items"));
     itemObj["id"] = newItemRef.id;
+    itemObj["sold"] = false;
+    itemObj["user"] = user.email;
     await setDoc(newItemRef, itemObj);
 
     const docRef = doc(db, "items", newItemRef.id);
