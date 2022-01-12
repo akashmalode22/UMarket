@@ -13,6 +13,7 @@ import {
   getDocs,
   collection,
   getFirestore,
+  serverTimestamp,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -40,11 +41,27 @@ export const logout = () => signOut(auth);
 
 export const addItemToDatabase = async (itemObj) => {
   try {
-    await addDoc(collection(db, "items"), itemObj);
+    const newItemRef = doc(collection(db, "items"));
+    itemObj["id"] = newItemRef.id;
+    await setDoc(newItemRef, itemObj);
   } catch (e) {
     console.error("Error adding document: ", e);
   }
+  // try {
+  //   await addDoc(collection(db, "items"), itemObj).then(function (docRef) {
+  //     await updateDoc
+  //   });
+  // } catch (e) {
+  //   console.error("Error adding document: ", e);
+  // }
 };
+
+// export const getItemsFromDatabase = async () => {
+//   const itemsCol = collection(db, "items");
+//   const itemsSnapshot = await getDocs(itemsCol);
+//   const itemsList = itemsSnapshot.docs.map((doc) => doc.data());
+//   return itemsList;
+// };
 
 export const getItemsFromDatabase = async () => {
   const itemsCol = collection(db, "items");

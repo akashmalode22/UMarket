@@ -15,6 +15,8 @@ import styled from "styled-components/native";
 import { AuthInput } from "../account/components/account.styles";
 import InteractiveTextInput from "react-native-text-input-interactive";
 import ModalSelector from "react-native-modal-selector";
+import AwesomeButton from "react-native-really-awesome-button";
+
 import {
   addItemToDatabase,
   getItemsFromDatabase,
@@ -74,7 +76,7 @@ export const AddItemScreen = ({ navigation }) => {
   const onToggleNegotiableSwitch = () => setIsNegotiable(!isNegotiable);
 
   const createObject = () => {
-    item = {
+    let item = {
       name: name,
       brand: brand,
       price: price,
@@ -129,7 +131,9 @@ export const AddItemScreen = ({ navigation }) => {
         </Text>
       </View>
       <ScrollView>
-        <View style={{ marginTop: 52, alignItems: "center" }}>
+        <View
+          style={{ marginTop: 52, alignItems: "center", paddingBottom: 200 }}
+        >
           <InteractiveTextInput
             placeholder="Item Title"
             value={name}
@@ -266,16 +270,16 @@ export const AddItemScreen = ({ navigation }) => {
             />
           </ToggleArea>
           <ButtonSpacer />
+          <AwesomeButton
+            progress
+            onPress={() => {
+              createObject();
+              navigation.goBack();
+            }}
+          >
+            Add Item
+          </AwesomeButton>
         </View>
-
-        <Button
-          onPress={() => {
-            createObject();
-            navigation.goBack();
-          }}
-        >
-          Add Item
-        </Button>
       </ScrollView>
     </AddItemSafeArea>
   );

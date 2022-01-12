@@ -29,7 +29,7 @@ export const FavoritesContextProvider = ({ children }) => {
   };
 
   const remove = (item) => {
-    const newFavorites = favorites.filter((x) => x.placeId !== item.placeId);
+    const newFavorites = favorites.filter((x) => x.id !== item.id);
 
     setFavorites(newFavorites);
   };
