@@ -14,6 +14,9 @@ import {
   collection,
   getFirestore,
   serverTimestamp,
+  updateDoc,
+  orderBy,
+  query,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -44,28 +47,24 @@ export const addItemToDatabase = async (itemObj) => {
     const newItemRef = doc(collection(db, "items"));
     itemObj["id"] = newItemRef.id;
     await setDoc(newItemRef, itemObj);
+
+    const docRef = doc(db, "items", newItemRef.id);
+    const updateTimestamp = await updateDoc(docRef, {
+      timestamp: serverTimestamp(),
+    });
   } catch (e) {
     console.error("Error adding document: ", e);
   }
-  // try {
-  //   await addDoc(collection(db, "items"), itemObj).then(function (docRef) {
-  //     await updateDoc
-  //   });
-  // } catch (e) {
-  //   console.error("Error adding document: ", e);
-  // }
 };
 
-// export const getItemsFromDatabase = async () => {
-//   const itemsCol = collection(db, "items");
-//   const itemsSnapshot = await getDocs(itemsCol);
-//   const itemsList = itemsSnapshot.docs.map((doc) => doc.data());
-//   return itemsList;
-// };
-
 export const getItemsFromDatabase = async () => {
-  const itemsCol = collection(db, "items");
-  const itemsSnapshot = await getDocs(itemsCol);
+  const q = query(collection(db, "items"), orderBy("timestamp"));
+  const itemsSnapshot = await getDocs(q);
   const itemsList = itemsSnapshot.docs.map((doc) => doc.data());
-  return itemsList;
+  return itemsList.reverse();
+
+  // const itemsCol = collection(db, "items");
+  // const itemsSnapshot = await getDocs(itemsCol);
+  // const itemsList = itemsSnapshot.docs.map((doc) => doc.data());
+  // return itemsList;
 };
