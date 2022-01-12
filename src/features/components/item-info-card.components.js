@@ -83,7 +83,7 @@ export const ItemsInfoCard = ({ item = {}, bigView = false }) => {
                 {item.isNegotiable && <NegotiableImage />}
               </Tags>
             </SectionEnd>
-            <Price>{item.price}</Price>
+            <Price>{"$ " + item.price}</Price>
           </Info>
         </Card.Content>
       </ItemInfoCard>
