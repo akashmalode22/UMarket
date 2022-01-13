@@ -98,17 +98,6 @@ export const AddItemScreen = ({ navigation }) => {
 
   const [cameraPermission, setCameraPermission] = useState(null);
 
-  // const pickImage1 = async () => {
-  //   // No permissions request is necessary for launching the image library
-  //   let result = await ImagePicker.launchImageLibraryAsync({
-  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
-  //   });
-
-  //   if (!result.cancelled) {
-  //     setImage1(result.uri);
-  //   }
-  // };
-
   const pickImage1 = async () => {
     setCameraPermission(await Camera.requestCameraPermissionsAsync());
 
@@ -157,21 +146,27 @@ export const AddItemScreen = ({ navigation }) => {
     }
   };
 
-  const createObject = () => {
-    let file1url = uploadImageToDatabase(image1file)
-      .then(() => {
-        console.log("image 1 uploaded...");
+  const createObject = async () => {
+    let file1url = "";
+    let file2url = "";
+    await uploadImageToDatabase(image1file)
+      .then((url) => {
+        file1url = url;
       })
       .catch((e) => {
         console.log("Error uploading image 1, ", e);
       });
-    let file2url = uploadImageToDatabase(image2file)
-      .then(() => {
-        console.log("image 2 uploaded...");
+    await uploadImageToDatabase(image2file)
+      .then((url) => {
+        file2url = url;
       })
       .catch((e) => {
         console.log("Error uploading image 2, ", e);
       });
+    let photos = [];
+    photos.push(file1url);
+    photos.push(file2url);
+    console.log("ARRAY IS ", photos);
     let item = {
       name: name,
       brand: brand,
@@ -182,6 +177,7 @@ export const AddItemScreen = ({ navigation }) => {
       category: category,
       isDelivery: isDelivery,
       isNegotiable: isNegotiable,
+      photos: photos,
     };
     addItemToDatabase(item, user);
   };

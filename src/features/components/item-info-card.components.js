@@ -6,16 +6,21 @@ import {
   Image,
   SafeAreaView,
   TouchableOpacity,
+  Modal,
+  ScrollView,
 } from "react-native";
-import { Card } from "react-native-paper";
+import { Card, Button } from "react-native-paper";
 import styled from "styled-components/native";
 import { SliderBox } from "react-native-image-slider-box";
+import ImageView from "react-native-image-view";
+import { DisplayPhotos } from "./displayphotos.screen";
 
 import { colors } from "../../../utils/colors";
 import { SvgXml } from "react-native-svg";
 import Negotiable from "../../../assets/sort-result.svg";
 import { DeliveryImage, NegotiableImage } from "./tag-images";
 import { Favorite } from "../../components/favorites/favorite.component";
+import { NavigationContainer } from "@react-navigation/native";
 
 const Title = styled.Text`
   font-weight: bold;
@@ -62,17 +67,46 @@ export const ItemsInfoCard = ({ item = {}, bigView = false }) => {
     );
   };
 
+  {
+    /* <SliderBox
+              images={item.photos}
+              style={{ aspectRatio: 4 / 3 }}
+              parentHeight={100}
+            /> */
+  }
+
+  const proper = [
+    {
+      source: {
+        uri: item.photos[0],
+      },
+      width: 1080,
+      height: 1920,
+    },
+    {
+      source: {
+        uri: item.photos[1],
+      },
+      width: 1080,
+      height: 1920,
+    },
+  ];
+
   return (
     <>
       <ItemInfoCard elevation={5}>
         <Favorite item={item} />
-        {/* <View>
+        <View>
           {bigView ? (
-            <SliderBox images={item.photos} />
+            <SliderBox
+              images={item.photos}
+              style={{ aspectRatio: 4 / 3 }}
+              parentHeight={100}
+            />
           ) : (
             <Card.Cover source={{ uri: item.photos[0] }} />
           )}
-        </View> */}
+        </View>
 
         <Card.Content>
           <Info>

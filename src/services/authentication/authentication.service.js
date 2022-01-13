@@ -23,6 +23,7 @@ import {
   uploadBytesResumable,
   getStorage,
   uploadBytes,
+  getDownloadURL,
 } from "firebase/storage";
 const firebaseConfig = {
   apiKey: "AIzaSyARJcWt7DBUYAa4yR5YKT1iQUYltnfMQSc",
@@ -76,5 +77,11 @@ export const uploadImageToDatabase = async (file) => {
   const response = await fetch(file.uri);
   const blob = await response.blob();
   const storageRef = ref(storage, `images/${file.name}`);
-  uploadBytes(storageRef, blob).then(() => console.log("uploaded..."));
+
+  uploadBytes(storageRef, blob).then(() => {
+    getDownloadURL(ref(storage, `images/${file.name}`)).then((url) => {
+      console.log(url);
+      return url;
+    });
+  });
 };
