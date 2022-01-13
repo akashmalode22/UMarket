@@ -24,12 +24,14 @@ import InteractiveTextInput from "react-native-text-input-interactive";
 import ModalSelector from "react-native-modal-selector";
 import AwesomeButton from "react-native-really-awesome-button";
 import * as ImagePicker from "expo-image-picker";
+import { Camera } from "expo-camera";
 
 import { AuthInput } from "../account/components/account.styles";
 
 import {
   addItemToDatabase,
   getItemsFromDatabase,
+  uploadImageToDatabase,
 } from "../../services/authentication/authentication.service";
 import { AuthenticationContext } from "../../services/authentication/authentication.context";
 
@@ -91,30 +93,85 @@ export const AddItemScreen = ({ navigation }) => {
 
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
+  const [image1file, setImage1file] = useState(null);
+  const [image2file, setImage2file] = useState(null);
+
+  const [cameraPermission, setCameraPermission] = useState(null);
+
+  // const pickImage1 = async () => {
+  //   // No permissions request is necessary for launching the image library
+  //   let result = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //   });
+
+  //   if (!result.cancelled) {
+  //     setImage1(result.uri);
+  //   }
+  // };
 
   const pickImage1 = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    });
+    setCameraPermission(await Camera.requestCameraPermissionsAsync());
 
-    if (!result.cancelled) {
-      setImage1(result.uri);
+    if (cameraPermission) {
+      console.log("Granted...");
+      let data = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      });
+      if (!data.cancelled) {
+        let newfile = {
+          uri: data.uri,
+          type: `test/${data.uri.split(".")[1]}`,
+          name: data.uri.substring(
+            data.uri.lastIndexOf("/") + 1,
+            data.uri.length
+          ),
+        };
+        setImage1(data.uri);
+        setImage1file(newfile);
+      }
     }
   };
 
   const pickImage2 = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    });
+    setCameraPermission(await Camera.requestCameraPermissionsAsync());
 
-    if (!result.cancelled) {
-      setImage2(result.uri);
+    if (cameraPermission) {
+      console.log("Granted...");
+      let data = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      });
+      if (!data.cancelled) {
+        let newfile = {
+          uri: data.uri,
+          type: `test/${data.uri.split(".")[1]}`,
+          name: data.uri.substring(
+            data.uri.lastIndexOf("/") + 1,
+            data.uri.length
+          ),
+        };
+        console.log(newfile.name);
+        console.log(newfile.uri);
+        setImage2(data.uri);
+        setImage2file(newfile);
+      }
     }
   };
 
   const createObject = () => {
+    let file1url = uploadImageToDatabase(image1file)
+      .then(() => {
+        console.log("image 1 uploaded...");
+      })
+      .catch((e) => {
+        console.log("Error uploading image 1, ", e);
+      });
+    let file2url = uploadImageToDatabase(image2file)
+      .then(() => {
+        console.log("image 2 uploaded...");
+      })
+      .catch((e) => {
+        console.log("Error uploading image 2, ", e);
+      });
     let item = {
       name: name,
       brand: brand,
@@ -327,7 +384,7 @@ export const AddItemScreen = ({ navigation }) => {
               <TouchableOpacity onPress={() => pickImage1()}>
                 {!image1 && (
                   <Avatar.Icon
-                    size={75}
+                    size={100}
                     backgroundColor="#373A36"
                     icon="plus"
                   />
@@ -339,7 +396,7 @@ export const AddItemScreen = ({ navigation }) => {
               <TouchableOpacity onPress={() => pickImage2()}>
                 {!image2 && (
                   <Avatar.Icon
-                    size={75}
+                    size={100}
                     backgroundColor="#373A36"
                     icon="plus"
                   />

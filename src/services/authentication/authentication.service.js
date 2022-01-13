@@ -18,7 +18,12 @@ import {
   orderBy,
   query,
 } from "firebase/firestore";
-
+import {
+  ref,
+  uploadBytesResumable,
+  getStorage,
+  uploadBytes,
+} from "firebase/storage";
 const firebaseConfig = {
   apiKey: "AIzaSyARJcWt7DBUYAa4yR5YKT1iQUYltnfMQSc",
   authDomain: "umarket-69196.firebaseapp.com",
@@ -31,6 +36,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage();
 
 export const userLoggedIn = (usr) => onAuthStateChanged(auth, usr);
 
@@ -64,9 +70,11 @@ export const getItemsFromDatabase = async () => {
   const itemsSnapshot = await getDocs(q);
   const itemsList = itemsSnapshot.docs.map((doc) => doc.data());
   return itemsList.reverse();
+};
 
-  // const itemsCol = collection(db, "items");
-  // const itemsSnapshot = await getDocs(itemsCol);
-  // const itemsList = itemsSnapshot.docs.map((doc) => doc.data());
-  // return itemsList;
+export const uploadImageToDatabase = async (file) => {
+  const response = await fetch(file.uri);
+  const blob = await response.blob();
+  const storageRef = ref(storage, `images/${file.name}`);
+  uploadBytes(storageRef, blob).then(() => console.log("uploaded..."));
 };
