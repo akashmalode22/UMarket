@@ -149,24 +149,15 @@ export const AddItemScreen = ({ navigation }) => {
   const createObject = async () => {
     let file1url = "";
     let file2url = "";
-    await uploadImageToDatabase(image1file)
-      .then((url) => {
-        file1url = url;
-      })
-      .catch((e) => {
-        console.log("Error uploading image 1, ", e);
-      });
-    await uploadImageToDatabase(image2file)
-      .then((url) => {
-        file2url = url;
-      })
-      .catch((e) => {
-        console.log("Error uploading image 2, ", e);
-      });
-    let photos = [];
-    photos.push(file1url);
-    photos.push(file2url);
-    console.log("ARRAY IS ", photos);
+    try {
+      file1url = await uploadImageToDatabase(image1file);
+      file2url = await uploadImageToDatabase(image2file);
+      console.log(file1url);
+      console.log(file2url);
+    } catch (e) {
+      console.log(e);
+    }
+
     let item = {
       name: name,
       brand: brand,
@@ -177,10 +168,47 @@ export const AddItemScreen = ({ navigation }) => {
       category: category,
       isDelivery: isDelivery,
       isNegotiable: isNegotiable,
-      photos: photos,
+      photos: [file1url, file2url],
     };
     addItemToDatabase(item, user);
+    console.log("Added item to database.");
   };
+
+  // const createObject = async () => {
+  //   let file1url = "";
+  //   let file2url = "";
+  //   await uploadImageToDatabase(image1file)
+  //     .then((url) => {
+  //       file1url = url;
+  //     })
+  //     .catch((e) => {
+  //       console.log("Error uploading image 1, ", e);
+  //     });
+  //   await uploadImageToDatabase(image2file)
+  //     .then((url) => {
+  //       file2url = url;
+  //     })
+  //     .catch((e) => {
+  //       console.log("Error uploading image 2, ", e);
+  //     });
+  //   let photos = [];
+  //   photos.push(file1url);
+  //   photos.push(file2url);
+  //   console.log("ARRAY IS ", photos);
+  //   let item = {
+  //     name: name,
+  //     brand: brand,
+  //     price: price,
+  //     description: description,
+  //     defects: defects,
+  //     condition: condition,
+  //     category: category,
+  //     isDelivery: isDelivery,
+  //     isNegotiable: isNegotiable,
+  //     photos: photos,
+  //   };
+  //   addItemToDatabase(item, user);
+  // };
 
   let index_condition = 0;
   const condition_data = [

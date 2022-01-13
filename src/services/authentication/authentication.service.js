@@ -76,12 +76,12 @@ export const getItemsFromDatabase = async () => {
 export const uploadImageToDatabase = async (file) => {
   const response = await fetch(file.uri);
   const blob = await response.blob();
-  const storageRef = ref(storage, `images/${file.name}`);
-
-  uploadBytes(storageRef, blob).then(() => {
-    getDownloadURL(ref(storage, `images/${file.name}`)).then((url) => {
-      console.log(url);
-      return url;
+  return new Promise((resolve, reject) => {
+    const storageRef = ref(storage, `images/${file.name}`);
+    uploadBytes(storageRef, blob).then(() => {
+      getDownloadURL(ref(storage, `images/${file.name}`)).then((url) => {
+        resolve(url);
+      });
     });
   });
 };
